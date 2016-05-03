@@ -15,7 +15,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        myTextField.returnKeyType = UIReturnKeyType.Search
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -30,8 +32,22 @@ class ViewController: UIViewController {
 
     @IBAction func tapSearch(sender: UITextField) {
         
-        myTextField.returnKeyType = UIReturnKeyType.Search
-        
+        if myTextField.text == ""{
+            var alertController = UIAlertController(
+                title: "未入力",
+                message: "何か入力して下さい",
+                preferredStyle: .Alert)
+            
+            alertController.addAction(UIAlertAction(
+                title: "OK",
+                style: .Default,
+                handler: { action in print("OK") } ))
+            
+            presentViewController(alertController, animated: true, completion: nil)
+            
+            return
+        }
+
         
         var myDefault = NSUserDefaults.standardUserDefaults()
         myDefault.setObject(sender.text, forKey: "myString")
@@ -44,6 +60,9 @@ class ViewController: UIViewController {
         myWebView.loadRequest(myURLReq)
         
     }
+    
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
