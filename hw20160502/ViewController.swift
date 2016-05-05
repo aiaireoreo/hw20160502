@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Social
 
 class ViewController: UIViewController {
 
@@ -20,16 +21,20 @@ class ViewController: UIViewController {
 
     }
     
+    
     override func viewWillAppear(animated: Bool) {
+        
         var myDefault = NSUserDefaults.standardUserDefaults()
+        
         var myStr = myDefault.stringForKey("myString")
+        
         if let tmpStr = myStr {
             myTextField.text = tmpStr
             print(tmpStr)
         }
     }
 
-
+    
     @IBAction func tapSearch(sender: UITextField) {
         
         if myTextField.text == ""{
@@ -59,6 +64,36 @@ class ViewController: UIViewController {
         
         myWebView.loadRequest(myURLReq)
         
+    }
+    
+    //スワイプしたらキーボード閉じる
+   
+    @IBAction func swipeKeybord(sender: UISwipeGestureRecognizer) {
+        self.view.endEditing(true)
+        print("スワイプされた")
+    }
+    
+    //GestureRecognizerのdelegateをselfに設定して使用する
+    //デリゲートメソッド
+    func gestureRecognizer(
+        gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWithGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return true
+    
+    }
+    
+        //gestureRecognizerとゆう部品が持ってるメソッド
+    
+   
+    
+    
+    //FBシェアボタン
+    @IBAction func tapFacebookBtn(sender: UIButton) {
+        
+        var facebookVC = SLComposeViewController(forServiceType: SLServiceTypeFacebook)
+        facebookVC.setInitialText(myTextField.text)
+    presentViewController(facebookVC,animated: true, completion: nil)
     }
     
     
